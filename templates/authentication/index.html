@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication</title>
+    <title>Authentication Home Page</title>
 </head>
 <body>
 
@@ -20,14 +20,14 @@
     <h3>Welcome to my Website.</h3>
 
     {% if user.is_authenticated %}
-    <h3>Hello {{ fname }}</h3>
-    <h4>You are successfully logged in!!</h4>
-    <button type="submit"> <a href="/signout"> SignUp </a></button>
-
+    <h3>Hello {{ fname }}!!</h3>
+    <h4>You are successfully logged in.</h4>
+    <button type="submit"> <a href="/signout"> SignOut </a></button>
     {% else %}
-    <button type="submit"><a href="/signin"> SignUp </a></button>
-    <button type="submit"> <a href="/signout"> SignIn </a></button>
+    <button type="submit"><a href="/signup"> SignUp </a></button>
+    <br>
+    <br>
+    <button type="submit"> <a href="/signin"> SignIn </a></button>
     {% endif %}
-
 </body>
 </html>

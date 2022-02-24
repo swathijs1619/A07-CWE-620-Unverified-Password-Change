@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sign In</title>
 </head>
 <body>
 
@@ -17,21 +17,22 @@
     </div>
     {% endfor %}
     
-    <h3>Sign In</h3>
+    <h3>Log In to your account!</h3>
 
-    <form action="/signin" method="post">
+    <form action="/signin" method="post" class="mb-2">
     {% csrf_token %}
-
-        <label for="">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required>
-        <br>
-
-        <label for="">Password</label>
-        <input type="password" id="pass1" name="pass1" placeholder="Enter your Password" required>
-        <br>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" Required>
+            <br>
+        </div>
+        <div class="form-group"></div>
+            <label for="pass1">Password</label>
+            <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter your Password" Required>
+            <br>
+        </div>
         
-        <button type="submit"> Sign In</button>
+        <button type="submit" class="btn btn-primary"> Log In</button>
     </form>
-
 </body>
 </html>

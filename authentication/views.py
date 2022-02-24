@@ -26,7 +26,7 @@ def signup(request):
         pass2 = request.POST['pass2']
 
         if User.objects.filter(username=username):
-            message.error(request, "Username already exists! Please try some other username.")
+            messages.error(request, "Username already exists! Please try some other username.")
             return redirect('home')
         
         if User.objects.filter(email=email).exists():
@@ -113,7 +113,7 @@ def signin(request):
         if user is not None:
             login(request, user)
             fname = user.first_name
-            return render(request, "authentication/index.html", {'fname': fname})
+            return render(request, "authentication/index.html", {"fname": fname})
         else:
             messages.error(request, "Bad Credentials!")
             return redirect('home')
