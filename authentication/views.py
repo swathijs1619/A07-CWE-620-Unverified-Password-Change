@@ -1,22 +1,13 @@
-from base64 import urlsafe_b64decode
-from email import message
-import imp
-from lib2to3.pgen2.tokenize import generate_tokens
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from gfg import settings
-from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import send_mail, EmailMessage
-
-from gfg.info import EMAIL_HOST_USER
 from . tokens import generate_token
 
 # Create your views here.
@@ -35,15 +26,15 @@ def signup(request):
         pass2 = request.POST['pass2']
 
         if User.objects.filter(username=username):
-            message.error(request, "Username already exists! Please write some other username")
+            message.error(request, "Username already exists! Please try some other username.")
             return redirect('home')
         
-        if User.objects.filter(email=email):
+        if User.objects.filter(email=email).exists():
             messages.error(request, "Email already registered!")
             return redirect('home')
         
-        if len(username) > 10:
-            messages.error(request, "Username must not exceed 10 characters!")
+        if len(username) > 15:
+            messages.error(request, "Username must not exceed 15 characters!")
             return redirect('home')
         
         if pass1 != pass2:
@@ -59,13 +50,12 @@ def signup(request):
         myuser.last_name = lname
         myuser.is_active = False
         myuser.save()
-
         messages.success(request, "Your account has been successfully created. We have sent you a confirmation email, please confirm your email inorder to activate your account.")
 
         # Welcome Email
 
         subject = "Welcome to GFG Django login"
-        message = "Hello " + myuser.first_name + "!! \n" + "Welcome to GFG!! \n Thank you for visiting our website. Please click on the below sent link for the confirmation of your account"
+        message = "Hello " + myuser.first_name + "!! \n" + "Welcome to GFG!! \n Thank you for visiting our website. Please click on the below sent to confirm your email. \n\nThank you \n Swathi J S"  
         from_email = settings.EMAIL_HOST_USER
         to_list = [myuser.email]
         send_mail(subject, message, from_email, to_list, fail_silently=True)
@@ -80,19 +70,37 @@ def signup(request):
             'domain': current_site.domain,
             'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
             'token': generate_token.make_token(myuser)
-            }
-            email = EmailMessage(
-                email_subject,
-                message2, 
-                settings.EMAIL_HOST_USER,
-                [myuser.email],
-            )
-            email.fail_silently = True
-            email.send())
+        })
+        email = EmailMessage(
+            email_subject,
+            message2, 
+            settings.EMAIL_HOST_USER,
+            [myuser.email],
+        )
+        email.fail_silently = True
+        email.send()
       
         return redirect('signin')
    
     return render(request, "authentication/signup.html")
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        myuser = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        myuser = None
+
+    if myuser is not None and generate_token.check_token(myuser, token):
+        myuser.is_active = True
+        myuser.save()
+        login(request, myuser)
+        messages.success(request, "Your account has been activated!!")
+        return redirect('signin')
+    else:
+        return render(request, "activation_failed.html")
+
 
 def signin(request):
 
@@ -116,3 +124,7 @@ def signout(request):
     logout(request)
     messages.success(request, "Logged Out Successfully!")
     return redirect('home')
+
+
+
+
