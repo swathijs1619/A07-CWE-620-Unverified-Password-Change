@@ -2,7 +2,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
-from .froms import RegisterForms,EditRegisterForms
+from .forms import RegisterForms,EditRegisterForms
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.views import PasswordResetView,PasswordResetDoneView,PasswordResetConfirmView,PasswordResetCompleteView
 
