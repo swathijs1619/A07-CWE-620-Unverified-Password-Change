@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <br><br>
+    <h2 class="text-center">Registrations Page</h2>
+    <hr>
+    <div class="col-md-6 offset-md-3">
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    <button type = "button" class="close" data-dismiss = "alert">x</button>
+                    <p>Problem ! try again  </p>
+                </div>
+            {% endif %}
+            {{ form.as_p }}
+            <input type="submit" value="Register" class="btn btn-secondary">
+        </form>
+    </div>
+{% endblock %}
