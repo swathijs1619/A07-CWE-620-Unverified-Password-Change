@@ -14,7 +14,7 @@ def login_user (request):
 		user = authenticate(request, username=username, password=password)
 		if user is not None:# if user exist
 			login(request, user)
-			messages.success(request,('Youre logged in'))
+			messages.success(request,('You are logged in'))
 			return redirect('home') #routes to 'home' on successful login  
 		else:
 			messages.success(request,('Error logging in'))
@@ -24,7 +24,7 @@ def login_user (request):
 
 def logout_user(request):
 	logout(request)
-	messages.success(request,('Youre now logged out'))
+	messages.success(request,('You are now logged out'))
 	return redirect('home')
 
 def register_user(request):
@@ -36,7 +36,7 @@ def register_user(request):
 			password = form.cleaned_data['password1']
 			user = authenticate(username=username, password=password)
 			login(request,user)
-			messages.success(request, ('Youre now registered'))
+			messages.success(request, ('You are now registered'))
 			return redirect('home')
 	else: 
 		form = SignUpForm() 
