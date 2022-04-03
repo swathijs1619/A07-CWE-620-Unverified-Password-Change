@@ -19,18 +19,18 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request,"You have login")
+            messages.success(request,"You have successfully Logged In!!")
             return redirect('home')
 
         else:
-            messages.success(request,"try Again")
+            messages.success(request,"Try Again!")
             return redirect('login')
     else:
         return render(request,'authenticate/login.html')
 
 def logout_view(request):
     logout(request)
-    messages.success(request, "logout your account ?")
+    messages.success(request, "Logged out")
     return redirect('login')
 
 
@@ -43,7 +43,7 @@ def register_view(request):
             password = form.cleaned_data['password1']
             user = authenticate(request, username=username, password=password)
             login(request,user)
-            messages.success(request,"Register Your Account")
+            messages.success(request,"Your Account has been regsitered successfully!!")
             return redirect('home')
 
     else:
@@ -58,7 +58,7 @@ def edit_register_view(request):
         form =EditRegisterForms(request.POST,instance = request.user)
         if form.is_valid():
             form.save()
-            messages.success(request,"Change Your Profile Data")
+            messages.success(request,"Your Profile has been Updated successfully!!")
             return redirect('home')
 
     else:
@@ -75,7 +75,7 @@ def password_change(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            messages.success(request,"Your Password Change")
+            messages.success(request,"Your Password Changed successfully!!")
             return redirect('home')
     else:
         form = PasswordChangeForm(user=request.user)
