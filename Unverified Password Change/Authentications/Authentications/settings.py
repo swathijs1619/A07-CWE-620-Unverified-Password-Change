@@ -137,8 +137,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #mail server
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'userauthenticationsystemnitk@gmail.com'
-EMAIL_HOST_PASSWORD = 'apwpdggxhoebvmay'
+EMAIL_HOST_USER = '' # Email id of the mail account which is used to send emails to legitimate users
+EMAIL_HOST_PASSWORD = '' # Password of the email account which is used to send emails to legitimate users
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'User Authentication system NITK Team <userauthenticationsystemnitk@gmail.com>'
